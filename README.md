@@ -1,2 +1,2 @@
 # leetcode-js
-JavaScript version's note for leetcode.
+JavaScript version codes for leetcode.
