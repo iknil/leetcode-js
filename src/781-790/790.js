@@ -13,14 +13,16 @@
  * @return {number}
  */
 function numTilings(n) {
+	// eslint-disable-next-line indent
 	const STEP = [1, 2, 5];
 	const MOD = 10 ** 9 + 7;
 
 	function getLeftCount(index) {
+		let i = index;
 		let result = 0;
-		while(index >= 0) { // from start to zero
-			result += STEP[index];
-			index -= 1;
+		while (i >= 0) { // from start to zero
+			result += STEP[i];
+			i -= 1;
 		}
 		return result;
 	}
@@ -32,8 +34,6 @@ function numTilings(n) {
 	for (let i = 4; i <= n; i += 1) {
 		STEP[i - 1] = (STEP[i - 2] + STEP[i - 3] + 2 * (getLeftCount(i - 4) + 1)) % MOD;
 	}
-
-	console.log(JSON.stringify(STEP))
 
 	return STEP[n - 1];
 }
