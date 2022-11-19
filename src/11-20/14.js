@@ -29,4 +29,4 @@ function longestCommonPrefix(strs) {
 	return result;
 }
 
-console.log(longestCommonPrefix(["", ""]));
+console.log(longestCommonPrefix(['', '']));
