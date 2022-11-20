@@ -20,7 +20,7 @@ function threeSum(nums) {
 				if (nums[i] * nums[k] > 0) {
 					break;
 				}
-				let temp = nums[i] + nums[j] + nums[k];
+				const temp = nums[i] + nums[j] + nums[k];
 				if (temp === 0) {
 					result.push([nums[i], nums[j], nums[k]]);
 				}
