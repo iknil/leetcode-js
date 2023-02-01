@@ -7,6 +7,7 @@ const removeElement = function(nums, val) {
 	const tnums = nums;
 	let i = 0;
 	let j = tnums.length - 1;
+	let c = 0;
 
 	// 特殊处理len === 1情况
 	if (i === j && tnums[i] === val) {
@@ -15,25 +16,26 @@ const removeElement = function(nums, val) {
 	}
 
 	while (i < j) {
-		while (tnums[i] !== val) {
-			i += 1;
-		}
-		while (tnums[j] === val) {
-			tnums[j] = -1;
-			j -= 1;
-		}
-		if (i < j) {
+		if (tnums[i] === val && tnums[j] !== val) {
 			tnums[i] = tnums[j];
-			tnums[j] = -1;
+			tnums[j] = val;
+		}
+
+		if (tnums[i] !== val) {
 			i += 1;
+		} else if (tnums[j] === val) {
+			c += 1;
 			j -= 1;
-		} else {
-			break;
 		}
 	}
-	return j + 1;
+
+	if (tnums[i] === val) {
+		c += 1;
+	}
+
+	return tnums.length - c;
 };
 
-const nums = [1];
-console.log(removeElement(nums, 1));
+const nums = [3, 3];
+console.log(removeElement(nums, 2));
 console.log(nums);
