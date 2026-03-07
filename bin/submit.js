@@ -3,9 +3,10 @@ const fs = require('fs');
 const path = require('path');
 
 const number = process.argv[2];
+const version = process.argv[3];
 
 if (!number || Number.isNaN(Number(number))) {
-	console.error('Please provide a valid problem number. Usage: npm run submit <number>');
+	console.error('Please provide a valid problem number. Usage: npm run submit <number> [version]');
 	process.exit(1);
 }
 
@@ -53,6 +54,9 @@ const titleSlug = match[1];
 const code = fileContent;
 
 console.log(`Submitting problem #${number}: ${titleSlug}`);
+if (version) {
+	console.log(`Targeting local function version: ${version}`);
+}
 
 // Helper function for GraphQL queries
 async function graphqlQuery(query, variables) {
@@ -79,6 +83,10 @@ async function submitCode() {
 			query questionData($titleSlug: String!) {
 				question(titleSlug: $titleSlug) {
 					questionId
+					codeSnippets {
+						langSlug
+						code
+					}
 				}
 			}
 		`;
@@ -93,6 +101,29 @@ async function submitCode() {
 		const questionId = qData.data.question.questionId;
 		console.log(`Resolved question_id: ${questionId}`);
 
+		// Extract expected function name for JavaScript
+		const jsSnippet = qData.data.question.codeSnippets.find((s) => s.langSlug === 'javascript');
+		if (!jsSnippet) {
+			console.error('Could not find JavaScript code snippet from LeetCode.');
+			process.exit(1);
+		}
+
+		const matchParams = /(?:var|let|const|function)\s+([a-zA-Z0-9_]+)/.exec(jsSnippet.code);
+		if (!matchParams) {
+			console.error('Could not parse the expected function name from the LeetCode template.');
+			process.exit(1);
+		}
+
+		const expectedName = matchParams[1];
+		let finalCode = code;
+
+		if (version && version !== expectedName) {
+			console.log(`Rewriting code: mapping '${version}' -> '${expectedName}'`);
+			// To avoid conflicts, first rename the default one, then rename the requested one
+			finalCode = finalCode.replace(new RegExp(`\\b${expectedName}\\b`, 'g'), `${expectedName}_orig`);
+			finalCode = finalCode.replace(new RegExp(`\\b${version}\\b`, 'g'), expectedName);
+		}
+
 		// 2. Submit Code
 		console.log('Submitting code...');
 		const submitRes = await fetch(`https://leetcode.cn/problems/${titleSlug}/submit/`, {
@@ -106,7 +137,7 @@ async function submitCode() {
 			body: JSON.stringify({
 				lang: 'javascript', // Hardcoded as this is leetcode-js
 				question_id: questionId,
-				typed_code: code,
+				typed_code: finalCode,
 			}),
 		});
 
