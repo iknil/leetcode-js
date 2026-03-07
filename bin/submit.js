@@ -108,7 +108,10 @@ async function submitCode() {
 			process.exit(1);
 		}
 
-		const matchParams = /(?:var|let|const|function)\s+([a-zA-Z0-9_]+)/.exec(jsSnippet.code);
+		// Strip block comments to avoid matching commented-out classes like ListNode
+		const cleanSnippet = jsSnippet.code.replace(/\/\*[\s\S]*?\*\//g, '');
+		
+		const matchParams = /(?:var|let|const|function)\s+([a-zA-Z0-9_]+)/.exec(cleanSnippet);
 		if (!matchParams) {
 			console.error('Could not parse the expected function name from the LeetCode template.');
 			process.exit(1);
