@@ -7,7 +7,8 @@
     "lint": "eslint --ext .js src/",
     "lint:fix": "eslint --fix --ext .js src/",
     "create": "node ./bin/index.js create",
-    "run": "node ./bin/index.js run"
+    "run": "node ./bin/index.js run",
+    "submit": "node ./bin/submit.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
     "eslint-config-airbnb-base": "^15.0.0"
   },
   "dependencies": {
+    "dotenv": "^17.3.1",
     "husky": "^8.0.3"
   }
 }
