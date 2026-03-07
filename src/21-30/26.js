@@ -1,8 +1,11 @@
 /**
+ * https://leetcode.cn/problems/remove-duplicates-from-sorted-array/
+ */
+/**
  * @param {number[]} nums
  * @return {number}
  */
-const removeDuplicates = function(nums) {
+const removeDuplicates = function (nums) {
 	const tnums = nums;
 	let i = 0;
 	let j = 0;
@@ -21,6 +24,6 @@ const removeDuplicates = function(nums) {
 	return j;
 };
 
-const anums = [0,0,1,1,1,2,2,3,3,4];
+const anums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4];
 console.log(removeDuplicates(anums));
 console.log(anums);

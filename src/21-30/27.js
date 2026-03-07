@@ -1,9 +1,12 @@
 /**
+ * https://leetcode.cn/problems/remove-element/
+ */
+/**
  * @param {number[]} nums
  * @param {number} val
  * @return {number}
  */
-const removeElement = function(nums, val) {
+const removeElement = function (nums, val) {
 	const tnums = nums;
 	let i = 0;
 	let j = tnums.length - 1;

@@ -1,4 +1,7 @@
 /**
+ * https://leetcode.cn/problems/length-of-last-word/
+ */
+/**
  * @param {string} s
  * @return {number}
  */
@@ -31,7 +34,7 @@ function lengthOfLastWord(s) {
  * @return {number}
  */
 function lengthOfLastWord2(s) {
-	let a = s.trim().split(/\s+/).slice(-1);
+	const a = s.trim().split(/\s+/).slice(-1);
 	return a[a.length - 1].length;
 }
 

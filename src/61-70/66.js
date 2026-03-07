@@ -1,12 +1,15 @@
 /**
+ * https://leetcode.cn/problems/plus-one/
+ */
+/**
  * @param {number[]} digits
  * @return {number[]}
  */
 function plusOne(digits) {
-	let d = digits.reverse();
+	const d = digits.reverse();
 	let f = 1;
 	for (let i = 0; i < d.length; i += 1) {
-		let t = d[i] + f;
+		const t = d[i] + f;
 		if (t === 10) {
 			d[i] = 0;
 			f = 1;

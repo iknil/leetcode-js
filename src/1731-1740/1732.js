@@ -1,4 +1,7 @@
 /**
+ * https://leetcode.cn/problems/find-the-highest-altitude/
+ */
+/**
  * @param {number[]} gain
  * @return {number}
  */
