@@ -50,8 +50,11 @@ if (!match) {
 }
 
 const titleSlug = match[1];
-// Extract the actual code (everything after the first block of comments might be too complex, just send the whole file, LeetCode ignores comments)
-const code = fileContent;
+// Strip local-only test/benchmark code before submitting.
+// Everything from the "// --- Local Tests" marker (or require.main guard) onward is removed.
+const localMarkerRe = /^\/\/ --- Local Tests.*$|^if \(require\.main === module\)/m;
+const markerIdx = fileContent.search(localMarkerRe);
+const code = markerIdx !== -1 ? fileContent.slice(0, markerIdx).trimEnd() + '\n' : fileContent;
 
 console.log(`Submitting problem #${number}: ${titleSlug}`);
 if (version) {
